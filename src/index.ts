@@ -2,6 +2,13 @@ import { NextFunction, Request, Response } from 'express';
 import { inspect } from 'util';
 import Busboy from 'busboy';
 
+export interface FormbodyFile {
+  buffer: Buffer;
+  filename: string;
+  size?: number;
+  mimetype?: string;
+}
+
 export const formbody = (req: Request, res: Response, next: NextFunction) => {
   if (req.method.toUpperCase() !== 'POST' || !req.is('multipart/form-data')) {
     return next();
@@ -11,7 +18,7 @@ export const formbody = (req: Request, res: Response, next: NextFunction) => {
   const body: {
     field: string;
     value?: string;
-    file?: { [key: string]: any };
+    file?: FormbodyFile;
   }[] = [];
 
   busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
