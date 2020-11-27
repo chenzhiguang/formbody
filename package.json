@@ -1,6 +1,6 @@
 {
   "name": "formbody",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A node.js middleware for multipart/form-data",
   "main": "dist/index.js",
   "scripts": {

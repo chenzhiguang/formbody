@@ -9,17 +9,19 @@ export interface FormbodyFile {
   mimetype?: string;
 }
 
+export interface FormbodyItem {
+  field: string;
+  value?: string;
+  file?: FormbodyFile;
+}
+
 export const formbody = (req: Request, res: Response, next: NextFunction) => {
   if (req.method.toUpperCase() !== 'POST' || !req.is('multipart/form-data')) {
     return next();
   }
 
   const busboy = new Busboy({ headers: req.headers });
-  const body: {
-    field: string;
-    value?: string;
-    file?: FormbodyFile;
-  }[] = [];
+  const body: FormbodyItem[] = [];
 
   busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
     if (!filename) {
