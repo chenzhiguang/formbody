@@ -1,7 +1,7 @@
 # formbody
 
-`formbody` is a node.js middleware to handle `multipart/form-data` which returns
-handled result as `Reponse.body`;
+`formbody` is a node.js middleware to handle `multipart/form-data`,
+typescript friendly.
 
 ## Installation
 
@@ -21,25 +21,35 @@ import { formbody } from 'formbody';
 app.use(formbody);
 
 app.all('/', (req: Request, res: Response) => {
-  console.log(req.body);
+  console.log(req.form.body);
+  console.log(req.form.file('file'));
+  console.log(req.form.get('name'));
+  console.log(req.form.has('name'));
+
+  res.sendStatus(200);
 });
 ```
 
-## body data
+## Interfaces
 
 ```typescript
-type Body = {
+interface FormbodyFile {
+  buffer: Buffer;
+  filename: string;
+  size?: number;
+  mimetype?: string;
+}
+
+interface FormbodyItem {
   field: string;
-
-  // when the field value is not file
   value?: string;
+  file?: FormbodyFile;
+}
 
-  // when the field value is file
-  file?: {
-    buffer: Uint8Array;
-    size: number;
-    filename: string;
-    mimetype: string;
-  };
-}[];
+interface Formbody {
+  body: FormbodyItem[];
+  get(key: string): string | undefined;
+  file(key: string): FormbodyFile | undefined;
+  has(key: string): boolean;
+}
 ```
