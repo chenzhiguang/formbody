@@ -8,6 +8,7 @@ app.post('/', (req: Request, res: Response) => {
   console.log(req.form.body);
   console.log(req.form.file('file'));
   console.log(req.form.get('name'));
+  console.log(req.form.select(['name', 'file']));
   res.sendStatus(200);
 });
 

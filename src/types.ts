@@ -16,4 +16,5 @@ export interface Formbody {
   get(key: string): string | undefined;
   file(key: string): FormbodyFile | undefined;
   has(key: string): boolean;
+  select(fields: string[]): { [key: string]: string };
 }

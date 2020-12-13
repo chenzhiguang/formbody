@@ -26,6 +26,9 @@ app.all('/', (req: Request, res: Response) => {
   console.log(req.form.get('name'));
   console.log(req.form.has('name'));
 
+  // NOTE: this select will not return file type value
+  console.log(req.form.select(['name', 'file']));
+
   res.sendStatus(200);
 });
 ```
@@ -51,5 +54,6 @@ interface Formbody {
   get(key: string): string | undefined;
   file(key: string): FormbodyFile | undefined;
   has(key: string): boolean;
+  select(fields: string[]): { [key: string]: string };
 }
 ```
